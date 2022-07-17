@@ -5,15 +5,50 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-      // unique: true -> Ideally, should be unique, but its up to you
+      minlength: [3, "Your username must have at least three characters"],
+      trim: true,
+      required: [true, "Username is required"],
+      unique: true
     },
-    password: String,
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      trim: true,
+      lowercase: true,
+      unique: true
+    },
+    password: {
+      type: String,
+      required: [true, "Contraseña requerida"],
+    },
+    role: {
+      type: String,
+      enum: ["USER", "ADMIN"],
+      default: "USER"
+    },
+    image: {
+      type: String,
+      default: 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
+    },
+    paymentDetails: {
+      card: {
+        type: Number,
+        minlength: [16, "Invalid card number"],
+        maxlength: [16, "Invalid card number"]
+      }
+    },
+    UserBookings: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Booking'
+
+      }
+    ]
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
   }
-);
+)
 
 const User = model("User", userSchema);
 
