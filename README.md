@@ -29,9 +29,9 @@ Server Routes:
 
 | METHOD  |            URL             | DESCRIPTION              
 |-------|--------------------------|--------------------|
-|GET      | /user/all                  |  all users          |
-|GET      | /user/:user_id             |  get one user by id |
-|PUT     | /user/:user_id/edit        |  edit user          |
-|PUT     | /user/edit-image          |  edit image user    |
-|DELETE     | /user_id/delete        |  delete user        |
+|GET      | api/user/all                  |  all users          |
+|GET      | api/user/:user_id             |  get one user by id |
+|PUT     | api/user/:user_id/edit        |  edit user          |
+|PUT     | api/user/edit-image          |  edit image user    |
+|DELETE     | api/user_id/delete        |  delete user        |
 
