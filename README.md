@@ -21,10 +21,6 @@ Server Routes:
 
 | METHOD     |         URL          | DESCRIPTION              
 |:-------:|:--------------------------:|:--------------------:
-|GET   | /user/:user_id        |  get one user by id|
-
-| METHOD     |         URL          | DESCRIPTION              
-|:-------:|:--------------------------:|:--------------------:
 |POST   | /booking/create      |  create bookings|
 |GET   | /booking/all      |  get all bookings|
 |GET   | /booking/:booking_id      |  get one booking by id|
@@ -34,8 +30,9 @@ Server Routes:
 | METHOD  |            URL             | DESCRIPTION              
 |:-------:|:--------------------------:|:--------------------:
 |GET      | /user/all                  |  all users          |
+|GET      | /user/:user_id             |  get one user by id |
 |POST     | /user/:user_id/edit        |  edit user          |
-|POST     | /user//edit-image          |  edit image user    |
-|POST     | /useruser_id/delete        |  delete user        |
+|POST     | /user/edit-image          |  edit image user    |
+|POST     | /user_id/delete        |  delete user        |
 
 
