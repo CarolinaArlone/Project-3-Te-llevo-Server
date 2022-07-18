@@ -2,9 +2,9 @@ const express = require("express")
 const bcrypt = require('bcryptjs')
 const User = require("../models/User.model")
 
-//const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
 
-//const { isAuthenticated } = require("../middlewares/jwt.middleware")
+const { isAuthenticated } = require("./middlewares/jwt.middleware")
 
 
 const router = express.Router()
@@ -89,7 +89,7 @@ router.post('/login', (req, res, next) => {
             }
 
         })
-        .catch(err => res.status(500).json({ message: "Internal Server Error" }));
+        .catch(err => res.status(500).json({ errorMessage: err.message }));
 });
 
 
