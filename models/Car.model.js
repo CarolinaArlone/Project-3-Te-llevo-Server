@@ -28,7 +28,7 @@ const carSchema = new Schema(
         },
         size: {
             type: String,
-            enum: ['SMALL', 'LARGE', 'MEDIUM', 'FAMILY', 'VAN', 'ELECTRIC'],
+            enum: ['SMALL', 'LARGE', 'MEDIUM', 'FAMILY', 'VAN'],
             required: [true, "Por favor indique el tamaño del vehículo"]
         },
         transmission: {
@@ -38,16 +38,16 @@ const carSchema = new Schema(
         },
         fuelType: {
             type: String,
-            enum: ['PETROL', 'DIESEL', 'ELECTRIC'],
+            enum: ['PETROL', 'DIESEL', 'ELECTRIC', 'HYBRID'],
             required: [true, "Por favor indique el tipo de fuel del vehículo"]
         },
         seats: {
             type: String,
-            min: 3,
+            min: 2,
             max: 9,
             required: [true, "Por favor indique el número de asientos del vehículo"]
         },
-        CarRating: {
+        carRating: {
             type: Number,
             min: 0,
             max: 5

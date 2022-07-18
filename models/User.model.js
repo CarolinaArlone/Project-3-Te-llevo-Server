@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require("mongoose")
 
 const userSchema = new Schema(
   {
@@ -6,8 +6,7 @@ const userSchema = new Schema(
       type: String,
       minlength: [3, "Su nombre de usuario debe tener al menos tres caracteres"],
       trim: true,
-      required: [true, "El nombre de usuario es obligatorio"],
-      unique: true
+      required: [true, "El nombre de usuario es obligatorio"]
     },
     email: {
       type: String,
@@ -18,7 +17,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Contraseña requerida"],
     },
     role: {
       type: String,
@@ -35,20 +33,13 @@ const userSchema = new Schema(
         minlength: [16, "Número de tarjeta no válido"],
         maxlength: [16, "Número de tarjeta no válido"]
       }
-    },
-    UserBookings: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Booking'
-
-      }
-    ]
+    }
   },
   {
     timestamps: true,
   }
 )
 
-const User = model("User", userSchema);
+const User = model("User", userSchema)
 
-module.exports = User;
+module.exports = User

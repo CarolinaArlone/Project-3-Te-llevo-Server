@@ -8,6 +8,7 @@ router.post('/create', (req, res) => {
     // res.json({ message: 'Funciona crear' })
     const { user_id } = req.query
     const { startDate, endDate, bookedCar } = req.body
+
     let bookingId = ''
     let newBooking = []
 
@@ -25,6 +26,7 @@ router.post('/create', (req, res) => {
 
 //ALL BOOKINGS
 router.get('/all', (req, res) => {
+    q
 
     // res.json({message: 'Funciona all'})
     Booking
