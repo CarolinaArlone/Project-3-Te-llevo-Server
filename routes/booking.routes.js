@@ -47,7 +47,7 @@ router.get('/:booking_id', (req, res) => {
 
 //EDIT BOOKING
 
-router.post(':booking_id/edit', (req, res) => {
+router.put(':booking_id/edit', (req, res) => {
 
     const { booking_id } = req.params
 
@@ -61,7 +61,7 @@ router.post(':booking_id/edit', (req, res) => {
 
 //DELETE
 
-router.post(':booking_id/delete', (req, res) => {
+router.delete(':booking_id/delete', (req, res) => {
 
     const { booking_id } = req.params
 

@@ -48,7 +48,7 @@ router.get('/:car_id', (req, res, next) => {
 })
 
 //edit car
-router.post('/:car_id/edit', (req, res, next) => {
+router.put('/:car_id/edit', (req, res, next) => {
 
     const { car_id } = req.params
 
@@ -63,7 +63,7 @@ router.post('/:car_id/edit', (req, res, next) => {
 })
 
 //delete car
-router.post('/:car_id/delete', (res, req, next) => {
+router.delete('/:car_id/delete', (res, req, next) => {
 
     const { car_id } = req.params
 

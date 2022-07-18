@@ -4,7 +4,7 @@ const User = require('./../models/User.model')
 // ALL USERS
 
 router.get('/all', (req, res) => {
-
+    //res.json({ message: 'Todos los usuarios' })
     User
         .find()
         .then(response => res.status(200).json(response))
@@ -14,7 +14,7 @@ router.get('/all', (req, res) => {
 
 // EDIT USER
 
-router.post("/:user_id/edit", (req, res) => {
+router.put("/:user_id/edit", (req, res) => {
     const { user_id } = req.params
     const { username, email, password, role, profileImg } = req.body
 
@@ -26,7 +26,7 @@ router.post("/:user_id/edit", (req, res) => {
 
 // EDIT USER IMAGE
 
-router.post('/edit-image', (req, res) => {
+router.put('/edit-image', (req, res) => {
 
     const { user_id } = req.payload
     const { profileImg } = req.body
@@ -38,7 +38,7 @@ router.post('/edit-image', (req, res) => {
 })
 
 // DELETE USER
-router.post("/:user_id/delete", (req, res) => {
+router.delete("/:user_id/delete", (req, res) => {
 
     const { user_id } = req.params
 
