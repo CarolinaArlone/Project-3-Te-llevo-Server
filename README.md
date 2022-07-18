@@ -31,4 +31,11 @@ Server Routes:
 |POST   | /booking/:booking_id/edit    |edit booking|
 |POST   | /booking/:booking_id/delete    |delete booking|
 
+| METHOD  |            URL             | DESCRIPTION              
+|:-------:|:--------------------------:|:--------------------:
+|GET      | /user/all                  |  all users          |
+|POST     | /user/:user_id/edit        |  edit user          |
+|POST     | /user//edit-image          |  edit image user    |
+|POST     | /useruser_id/delete        |  delete user        |
+
 
