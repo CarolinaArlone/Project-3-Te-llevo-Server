@@ -35,17 +35,3 @@ Server Routes:
 |PUT     | /user/edit-image          |  edit image user    |
 |DELETE     | /user_id/delete        |  delete user        |
 
-Client Routes:
-|            URL             | DESCRIPTION              
-|--------------------------|--------------------
-|/registro             |  signup-user       |
-|/iniciar-sesion       | login              | 
-|/inicio               | home               |
-|/lista-coches         | car-list           |
-|/detalle-coche/:car_id| car-details        |
-|/perfil               | profile            |
-|/pago                 | paymment           |
-|/cerrar-sesion        | logout             |
-|/*                     | error           |
-
-

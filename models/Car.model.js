@@ -49,6 +49,7 @@ const carSchema = new Schema(
         },
         carRating: {
             type: Number,
+            default: 5,
             min: 0,
             max: 5
         },
@@ -56,6 +57,12 @@ const carSchema = new Schema(
             {
                 type: Schema.Types.ObjectId,
                 ref: 'Review'
+            }
+        ],
+        reservations: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Booking'
             }
         ],
         location: {
