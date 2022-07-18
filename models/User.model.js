@@ -4,14 +4,14 @@ const userSchema = new Schema(
   {
     username: {
       type: String,
-      minlength: [3, "Your username must have at least three characters"],
+      minlength: [3, "Su nombre de usuario debe tener al menos tres caracteres"],
       trim: true,
-      required: [true, "Username is required"],
+      required: [true, "El nombre de usuario es obligatorio"],
       unique: true
     },
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, "El correo electrónico es obligatorio"],
       trim: true,
       lowercase: true,
       unique: true
@@ -32,8 +32,8 @@ const userSchema = new Schema(
     paymentDetails: {
       card: {
         type: Number,
-        minlength: [16, "Invalid card number"],
-        maxlength: [16, "Invalid card number"]
+        minlength: [16, "Número de tarjeta no válido"],
+        maxlength: [16, "Número de tarjeta no válido"]
       }
     },
     UserBookings: [
