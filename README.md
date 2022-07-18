@@ -21,7 +21,7 @@ Server Routes:
 
 | METHOD     |         URL          | DESCRIPTION              
 |:-------:|:--------------------------:|:--------------------:
-|GET   | /cars/:car_id        |  get one car by id|
+|GET   | /user/:user_id        |  get one user by id|
 
 | METHOD     |         URL          | DESCRIPTION              
 |:-------:|:--------------------------:|:--------------------:
@@ -30,5 +30,12 @@ Server Routes:
 |GET   | /booking/:booking_id      |  get one booking by id|
 |POST   | /booking/:booking_id/edit    |edit booking|
 |POST   | /booking/:booking_id/delete    |delete booking|
+
+| METHOD  |            URL             | DESCRIPTION              
+|:-------:|:--------------------------:|:--------------------:
+|GET      | /user/all                  |  all users          |
+|POST     | /user/:user_id/edit        |  edit user          |
+|POST     | /user//edit-image          |  edit image user    |
+|POST     | /useruser_id/delete        |  delete user        |
 
 
