@@ -31,7 +31,7 @@ router.post('/create', (req, res, next) => {
 
     Car
         .create(newCar)
-        .then(car => res.json(car))
+        .then(car => res.status(200).json(car))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
@@ -43,7 +43,7 @@ router.get('/:car_id', (req, res, next) => {
     Car
         .findById(car_id)
         .populate('reviews')
-        .then(car => res.json(car))
+        .then(car => res.status(200).json(car))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
@@ -58,7 +58,7 @@ router.post('/:car_id/edit', (req, res, next) => {
 
     Car
         .findByIdAndUpdate(car_id, { description, imageUrl, dayPrice, CarRating, reviews, location })
-        .then(car => res.json(car))
+        .then(car => res.status(200).json(car))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
@@ -69,7 +69,7 @@ router.post('/:car_id/delete', (res, req, next) => {
 
     Car
         .findByIdAndDelete(car_id)
-        .then(() => res.json())
+        .then(() => res.status(200).json())
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
@@ -80,7 +80,7 @@ router.post('/add-review', (req, res, next) => {
 
     Car
         .findByIdAndUpdate(car_id, { $push: { reviews: review_id } })
-        .then((review => res.status(200), json(review)))
+        .then(review => res.status(200).json(review))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
