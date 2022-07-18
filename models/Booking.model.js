@@ -11,11 +11,6 @@ const bookingSchema = new Schema(
             type: Date,
             required: true
         },
-        bookedCar: {
-            type: Schema.Types.ObjectId,
-            ref: "Car",
-            required: true
-        },
         user: {
             type: Schema.Types.ObjectId,
             ref: 'User'

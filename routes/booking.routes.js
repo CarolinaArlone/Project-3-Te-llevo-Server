@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const Booking = require('../models/Booking.model')
+const Car = require('../models/Car.model')
 const User = require('../models/User.model')
+
 
 //CREATE BOOKING
 
@@ -13,11 +15,11 @@ router.post('/create', (req, res) => {
     let newBooking = []
 
     Booking
-        .create({ startDate, endDate, bookedCar })
+        .create({ startDate, endDate, bookedCar, user: user_id })
         .then((booking) => {
             newBooking = booking
             bookingId = booking._id
-            return User.findByIdAndUpdate(user_id, { $push: { UserBookings: bookingId } })
+            return Car.findByIdAndUpdate(car_id, { $push: { UserBookings: bookingId } })
         })
         .then(() => res.json(newBooking))
         .catch(err => res.status(500).json({ errorMessage: err.message }))

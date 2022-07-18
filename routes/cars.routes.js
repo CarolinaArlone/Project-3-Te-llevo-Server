@@ -3,7 +3,7 @@ const router = require('express').Router()
 const Car = require('./../models/Car.model')
 
 //all cars
-router.get('/all', (req, res, next) => {
+router.get('/all', (req, res) => {
 
     Car
         .find()
@@ -12,7 +12,7 @@ router.get('/all', (req, res, next) => {
 })
 
 //create new car
-router.post('/create', (req, res, next) => {
+router.post('/create', (req, res) => {
 
     const {
         brand, model, plate, description, imageUrl, dayPrice, size,
@@ -36,7 +36,7 @@ router.post('/create', (req, res, next) => {
 })
 
 //get car by id
-router.get('/:car_id', (req, res, next) => {
+router.get('/:car_id', (req, res) => {
 
     const { car_id } = req.params
 
@@ -48,7 +48,7 @@ router.get('/:car_id', (req, res, next) => {
 })
 
 //edit car
-router.put('/:car_id/edit', (req, res, next) => {
+router.put('/:car_id/edit', (req, res) => {
 
     const { car_id } = req.params
 
@@ -63,7 +63,7 @@ router.put('/:car_id/edit', (req, res, next) => {
 })
 
 //delete car
-router.delete('/:car_id/delete', (res, req, next) => {
+router.delete('/:car_id/delete', (res, req) => {
 
     const { car_id } = req.params
 
@@ -74,7 +74,7 @@ router.delete('/:car_id/delete', (res, req, next) => {
 })
 
 //add review to car
-router.post('/add-review', (req, res, next) => {
+router.post('/:car_id/add-review', (req, res) => {
 
     const { car_id, review_id } = req.body
 
