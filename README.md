@@ -21,7 +21,7 @@ Server Routes:
 
 | METHOD     |         URL          | DESCRIPTION              
 |:-------:|:--------------------------:|:--------------------:
-|GET   | /cars/:car_id        |  get one car by id|
+|GET   | /user/:user_id        |  get one user by id|
 
 | METHOD     |         URL          | DESCRIPTION              
 |:-------:|:--------------------------:|:--------------------:
