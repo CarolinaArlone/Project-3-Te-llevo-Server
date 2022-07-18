@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const { Router } = require('express')
 const Booking = require('../models/Booking.model')
 const User = require('../models/User.model')
 
@@ -10,7 +9,7 @@ router.post('/create', (req, res) => {
     const { user_id } = req.query
     const { startDate, endDate, bookedCar } = req.body
     let bookingId = ''
-    let newBooking = {}
+    let newBooking = []
 
     Booking
         .create({ startDate, endDate, bookedCar })
@@ -20,7 +19,7 @@ router.post('/create', (req, res) => {
             return User.findByIdAndUpdate(user_id, { $push: { UserBookings: bookingId } })
         })
         .then(() => res.json(newBooking))
-        .catch((err) => res.status(500).json(err))
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
 
 })
 
@@ -30,8 +29,8 @@ router.get('/all', (req, res) => {
     // res.json({message: 'Funciona all'})
     Booking
         .find()
-        .then(response => res.json(response))
-        .catch((err) => res.status(500).json(err))
+        .then(response => res.status(200).json(response))
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
 //FIND BOOKING
@@ -42,8 +41,8 @@ router.get('/:booking_id', (req, res) => {
 
     Booking
         .findById(booking_id)
-        .then(response => res.json(response))
-        .catch((err) => res.status(500).json(err))
+        .then(response => res.status(200).json(response))
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
 //EDIT BOOKING
@@ -56,8 +55,8 @@ router.post(':booking_id/edit', (req, res) => {
 
     Booking
         .findByIdAndUpdate(booking_id, (startDate, endDate, bookedCar))
-        .then(response => res.json(response))
-        .catch((err) => res.status(500).json(err))
+        .then(response => res.status(200).json(response))
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
 //DELETE
@@ -67,8 +66,8 @@ router.post(':booking_id/delete', (req, res) => {
     const { booking_id } = req.params
 
     Booking.findByIdAndDelete(booking_id)
-        .then(response => res.json(response))
-        .catch((err) => res.status(500).json(err))
+        .then(response => res.status(200).json(response))
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
 
 })
 
