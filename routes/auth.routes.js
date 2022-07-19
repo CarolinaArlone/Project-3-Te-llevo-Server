@@ -34,8 +34,8 @@ router.post('/signup', (req, res, next) => {
                 .create({ email, password: hashedPassword, username })
                 .then((createdUser) => {
 
-                    const { email, username, _id } = createdUser
-                    const user = { email, username, _id }
+                    const { email, username, _id, role } = createdUser
+                    const user = { email, username, _id, role }
 
                     res.status(201).json({ user })
                 })
@@ -71,9 +71,9 @@ router.post('/login', (req, res, next) => {
 
             if (bcrypt.compareSync(password, foundUser.password)) {
 
-                const { _id, email, username } = foundUser;
+                const { _id, email, username, role } = foundUser
 
-                const payload = { _id, email, username }
+                const payload = { _id, email, username, role }
 
                 const authToken = jwt.sign(
                     payload,
@@ -81,14 +81,14 @@ router.post('/login', (req, res, next) => {
                     { algorithm: 'HS256', expiresIn: "6h" }
                 )
 
-                res.status(200).json({ authToken: authToken });
+                res.status(200).json({ authToken: authToken })
             }
             else {
-                res.status(401).json({ message: "Unable to authenticate the user" });
+                res.status(401).json({ message: "Unable to authenticate the user" })
             }
 
         })
-        .catch(err => res.status(500).json({ errorMessage: err.message }));
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
 });
 
 
