@@ -3,13 +3,13 @@ const bcrypt = require('bcryptjs')
 const User = require("../models/User.model")
 
 const jwt = require("jsonwebtoken")
-
 const { isAuthenticated } = require("./middlewares/jwt.middleware")
 
 
 const router = express.Router()
 const saltRounds = 10
 
+//signup
 router.post('/signup', (req, res, next) => {
 
     const { email, password, username } = req.body
@@ -27,19 +27,22 @@ router.post('/signup', (req, res, next) => {
                 res.status(400).json({ message: "User already exists." })
                 return
             }
-
             const salt = bcrypt.genSaltSync(saltRounds)
             const hashedPassword = bcrypt.hashSync(password, salt)
 
-            return User.create({ email, password: hashedPassword, username })
-        })
-        .then((createdUser) => {
+            User
+                .create({ email, password: hashedPassword, username })
+                .then((createdUser) => {
 
-            console.log('----', createdUser)
-            const { email, username, _id } = createdUser
-            const user = { email, username, _id }
+                    const { email, username, _id } = createdUser
+                    const user = { email, username, _id }
 
-            res.status(201).json({ user })
+                    res.status(201).json({ user })
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({ message: "Internal Server Error" })
+                })
         })
         .catch(err => {
             console.log(err)
@@ -47,11 +50,7 @@ router.post('/signup', (req, res, next) => {
         })
 })
 
-
-
-
-
-
+//login
 router.post('/login', (req, res, next) => {
 
     const { email, password } = req.body;
@@ -93,7 +92,7 @@ router.post('/login', (req, res, next) => {
 });
 
 
-router.get('/verify',/*  isAuthenticated, */(req, res) => {
+router.get('/verify', isAuthenticated, (req, res) => {
 
     console.log('ESTAMOS EN LA RUTA Y EL TOKEN ERA CORRECTO. EL PAYLOAD ES', req.payload)
 
