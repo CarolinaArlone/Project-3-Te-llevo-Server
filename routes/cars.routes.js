@@ -16,8 +16,9 @@ router.post('/create', (req, res) => {
 
     const {
         brand, model, plate, description, imageUrl, dayPrice, size,
-        transmission, fuelType, seats, CarRating, reviews, longitude, latitude
+        transmission, fuelType, seats, carRating, reviews, longitude, latitude
     } = req.body
+
 
     const location = {
         type: 'Point',
@@ -26,7 +27,7 @@ router.post('/create', (req, res) => {
 
     const newCar = {
         brand, model, plate, description, imageUrl, dayPrice, size,
-        transmission, fuelType, seats, CarRating, reviews, location
+        transmission, fuelType, seats, carRating, reviews, location
     }
 
     Car
