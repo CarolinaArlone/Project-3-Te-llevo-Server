@@ -19,10 +19,11 @@ router.post('/create', (req, res) => {
         transmission, fuelType, seats, carRating, reviews, longitude, latitude
     } = req.body
 
-
-    const location = [latitude, longitude]
+    const location = {
+        type: 'Point',
+        coordinates: [latitude, longitude]
+    }
     
-
     const newCar = {
         brand, model, plate, description, imageUrl, dayPrice, size,
         transmission, fuelType, seats, carRating, reviews, location
@@ -38,7 +39,6 @@ router.post('/create', (req, res) => {
 router.get('/:car_id', (req, res) => {
 
     const { car_id } = req.params
-    const location = [latitude, longitude]
 
     Car
         .findById(car_id)
@@ -52,11 +52,14 @@ router.put('/:car_id/edit', (req, res) => {
 
     const { car_id } = req.params
 
-    const location = [latitude, longitude]
-
     const {
         description, imageUrl, dayPrice, CarRating, reviews, latitude, longitude
     } = req.body
+
+    const location = {
+        type: 'Point',
+        coordinates: [latitude, longitude]
+    }
 
     Car
         .findByIdAndUpdate(car_id, { description, imageUrl, dayPrice, CarRating, reviews, latitude, longitude })

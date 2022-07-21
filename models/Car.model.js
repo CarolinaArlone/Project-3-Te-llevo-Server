@@ -66,7 +66,10 @@ const carSchema = new Schema(
             }
         ],
         location: {
-            type: [Number]
+            type: {
+                type: String
+            },
+            coordinates: [Number]
         }
     },
     {
