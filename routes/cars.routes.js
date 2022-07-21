@@ -20,10 +20,8 @@ router.post('/create', (req, res) => {
     } = req.body
 
 
-    const location = {
-        type: 'Point',
-        coordinates: [latitude, longitude]
-    }
+    const location = [latitude, longitude]
+    
 
     const newCar = {
         brand, model, plate, description, imageUrl, dayPrice, size,
@@ -40,6 +38,7 @@ router.post('/create', (req, res) => {
 router.get('/:car_id', (req, res) => {
 
     const { car_id } = req.params
+    const location = [latitude, longitude]
 
     Car
         .findById(car_id)
@@ -53,12 +52,14 @@ router.put('/:car_id/edit', (req, res) => {
 
     const { car_id } = req.params
 
+    const location = [latitude, longitude]
+
     const {
-        description, imageUrl, dayPrice, CarRating, reviews, location
+        description, imageUrl, dayPrice, CarRating, reviews, latitude, longitude
     } = req.body
 
     Car
-        .findByIdAndUpdate(car_id, { description, imageUrl, dayPrice, CarRating, reviews, location })
+        .findByIdAndUpdate(car_id, { description, imageUrl, dayPrice, CarRating, reviews, latitude, longitude })
         .then(car => res.status(200).json(car))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
