@@ -16,17 +16,19 @@ router.post('/create', (req, res) => {
 
     const {
         brand, model, plate, description, imageUrl, dayPrice, size,
-        transmission, fuelType, seats, carRating, reviews, longitude, latitude
+        transmission, fuelType, seats, carRating, longitude, latitude
     } = req.body
+
+    console.log('*************', req.body)
 
     const location = {
         type: 'Point',
         coordinates: [latitude, longitude]
     }
-    
+
     const newCar = {
         brand, model, plate, description, imageUrl, dayPrice, size,
-        transmission, fuelType, seats, carRating, reviews, location
+        transmission, fuelType, seats, carRating, location
     }
 
     Car
@@ -40,10 +42,15 @@ router.get('/:car_id', (req, res) => {
 
     const { car_id } = req.params
 
+    console.log('estoy en el back buscando un coche-----', car_id)
+
     Car
         .findById(car_id)
-        .populate('reviews')
-        .then(car => res.status(200).json(car))
+        // .populate('reviews')
+        .then(car => {
+            console.log('???????', car)
+            res.status(200).json(car)
+        })
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
