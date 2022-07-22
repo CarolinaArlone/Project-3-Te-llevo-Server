@@ -6,6 +6,7 @@ router.get('/all', (req, res) => {
 
     User
         .find()
+        // .select()
         .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 

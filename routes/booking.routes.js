@@ -3,18 +3,19 @@ const Booking = require('../models/Booking.model')
 const Car = require('../models/Car.model')
 const User = require('../models/User.model')
 
+const { isAuthenticated } = require('./../middlewares/jwt.middleware')
 
 //create booking
-router.post('/create', (req, res) => {
+router.post('/create', isAuthenticated, (req, res) => {
 
-    const { user_id } = req.query
     const { startDate, endDate, bookedCar } = req.body
+    const { _id: user } = req.payload
 
     let bookingId = ''
     let newBooking = []
 
     Booking
-        .create({ startDate, endDate, bookedCar, user: user_id })
+        .create({ startDate, endDate, bookedCar, user })
         .then((booking) => {
             newBooking = booking
             bookingId = booking._id
@@ -30,6 +31,7 @@ router.get('/all', (req, res) => {
 
     Booking
         .find()
+        // .select()
         .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
@@ -62,7 +64,8 @@ router.delete(':booking_id/delete', (req, res) => {
 
     const { booking_id } = req.params
 
-    Booking.findByIdAndDelete(booking_id)
+    Booking
+        .findByIdAndDelete(booking_id)
         .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 

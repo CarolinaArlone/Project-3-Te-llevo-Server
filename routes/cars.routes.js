@@ -1,17 +1,21 @@
 const router = require('express').Router()
+
 const Car = require('./../models/Car.model')
+
+const { isAuthenticated } = require('./../middlewares/jwt.middleware')
 
 //all cars
 router.get('/all', (req, res) => {
 
     Car
         .find()
+        // .select()
         .then(cars => res.status(200).json(cars))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
 //create new car
-router.post('/create', (req, res) => {
+router.post('/create', isAuthenticated, (req, res) => {
 
     const {
         brand, model, plate, description, imageUrl, dayPrice, size,
@@ -53,10 +57,12 @@ router.get('/:car_id', (req, res) => {
 router.put('/:car_id/edit', (req, res) => {
 
     const { car_id } = req.params
+
     const {
         brand, model, plate, description, imageUrl, dayPrice, size, seats,
         transmission, fuelType, carRating, latitude, longitude
     } = req.body
+
     const location = {
         type: 'Point',
         coordinates: [latitude, longitude]
@@ -83,7 +89,7 @@ router.delete('/:car_id/delete', (res, req) => {
 })
 
 //add review to car
-router.post('/:car_id/add-review', (req, res) => {
+router.put('/:car_id/add-review', (req, res) => {
 
     const { car_id, review_id } = req.body
 
