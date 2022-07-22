@@ -1,10 +1,9 @@
 const router = require('express').Router()
 const User = require('./../models/User.model')
 
-// ALL USERS
-
+// all users
 router.get('/all', (req, res) => {
-    //res.json({ message: 'Todos los usuarios' })
+
     User
         .find()
         .then(response => res.status(200).json(response))
@@ -12,9 +11,9 @@ router.get('/all', (req, res) => {
 
 })
 
-// EDIT USER
-
+// edit user
 router.put("/:user_id/edit", (req, res) => {
+
     const { user_id } = req.params
     const { username, email, password, role, profileImg } = req.body
 
@@ -24,8 +23,7 @@ router.put("/:user_id/edit", (req, res) => {
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
-// EDIT USER IMAGE
-
+// edit user image
 router.put('/edit-image', (req, res) => {
 
     const { user_id } = req.payload
@@ -37,7 +35,7 @@ router.put('/edit-image', (req, res) => {
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
-// DELETE USER
+// delete user
 router.delete("/:user_id/delete", (req, res) => {
 
     const { user_id } = req.params
@@ -47,6 +45,5 @@ router.delete("/:user_id/delete", (req, res) => {
         .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
-
 
 module.exports = router

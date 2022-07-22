@@ -4,10 +4,9 @@ const Car = require('../models/Car.model')
 const User = require('../models/User.model')
 
 
-//CREATE BOOKING
-
+//create booking
 router.post('/create', (req, res) => {
-    // res.json({ message: 'Funciona crear' })
+
     const { user_id } = req.query
     const { startDate, endDate, bookedCar } = req.body
 
@@ -26,19 +25,16 @@ router.post('/create', (req, res) => {
 
 })
 
-//ALL BOOKINGS
+//all booking
 router.get('/all', (req, res) => {
-    q
 
-    // res.json({message: 'Funciona all'})
     Booking
         .find()
         .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
-//FIND BOOKING
-
+//find booking
 router.get('/:booking_id', (req, res) => {
 
     const { booking_id } = req.params
@@ -49,12 +45,10 @@ router.get('/:booking_id', (req, res) => {
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
-//EDIT BOOKING
-
+//edit booking
 router.put(':booking_id/edit', (req, res) => {
 
     const { booking_id } = req.params
-
     const { startDate, endDate, bookedCar } = req.body
 
     Booking
@@ -63,8 +57,7 @@ router.put(':booking_id/edit', (req, res) => {
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
-//DELETE
-
+//delete
 router.delete(':booking_id/delete', (req, res) => {
 
     const { booking_id } = req.params

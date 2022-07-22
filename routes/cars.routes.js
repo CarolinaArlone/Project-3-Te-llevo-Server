@@ -1,5 +1,4 @@
 const router = require('express').Router()
-
 const Car = require('./../models/Car.model')
 
 //all cars
@@ -18,8 +17,6 @@ router.post('/create', (req, res) => {
         brand, model, plate, description, imageUrl, dayPrice, size,
         transmission, fuelType, seats, carRating, longitude, latitude
     } = req.body
-
-    console.log('*************', req.body)
 
     const location = {
         type: 'Point',
@@ -42,8 +39,6 @@ router.get('/:car_id', (req, res) => {
 
     const { car_id } = req.params
 
-    console.log('estoy en el back buscando un coche-----', car_id)
-
     Car
         .findById(car_id)
         // .populate('reviews')
@@ -58,18 +53,20 @@ router.get('/:car_id', (req, res) => {
 router.put('/:car_id/edit', (req, res) => {
 
     const { car_id } = req.params
-
     const {
-        description, imageUrl, dayPrice, CarRating, reviews, latitude, longitude
+        brand, model, plate, description, imageUrl, dayPrice, size, seats,
+        transmission, fuelType, carRating, latitude, longitude
     } = req.body
-
     const location = {
         type: 'Point',
         coordinates: [latitude, longitude]
     }
 
     Car
-        .findByIdAndUpdate(car_id, { description, imageUrl, dayPrice, CarRating, reviews, location })
+        .findByIdAndUpdate(car_id, {
+            brand, model, plate, description, imageUrl, dayPrice, size, seats,
+            transmission, fuelType, carRating, location
+        })
         .then(car => res.status(200).json(car))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
