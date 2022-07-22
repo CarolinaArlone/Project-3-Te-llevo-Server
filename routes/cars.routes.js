@@ -62,7 +62,7 @@ router.put('/:car_id/edit', (req, res) => {
     }
 
     Car
-        .findByIdAndUpdate(car_id, { description, imageUrl, dayPrice, CarRating, reviews, latitude, longitude })
+        .findByIdAndUpdate(car_id, { description, imageUrl, dayPrice, CarRating, reviews, location })
         .then(car => res.status(200).json(car))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
