@@ -22,6 +22,8 @@ router.post('/create', isAuthenticated, (req, res) => {
         transmission, fuelType, seats, carRating, longitude, latitude
     } = req.body
 
+    console.log('=======', req.body)
+
     const location = {
         type: 'Point',
         coordinates: [latitude, longitude]
@@ -34,8 +36,13 @@ router.post('/create', isAuthenticated, (req, res) => {
 
     Car
         .create(newCar)
-        .then(car => res.status(200).json(car))
-        .catch(err => res.status(500).json({ errorMessage: err.message }))
+        .then(car => {
+            console.log('---eto es el coche creado------>', car)
+            res.status(200).json(car)
+        })
+        .catch(err => console.log(err))
+    // .catch(err => res.status(500).json({ errorMessage: err.message }))
+
 })
 
 //get car by id
@@ -45,9 +52,8 @@ router.get('/:car_id', (req, res) => {
 
     Car
         .findById(car_id)
-        // .populate('reviews')
+        .populate('reservations')
         .then(car => {
-            console.log('???????', car)
             res.status(200).json(car)
         })
         .catch(err => res.status(500).json({ errorMessage: err.message }))
@@ -78,7 +84,7 @@ router.put('/:car_id/edit', (req, res) => {
 })
 
 //delete car
-router.delete('/:car_id/delete', (res, req) => {
+router.delete('/:car_id/delete', (req, res) => {
 
     const { car_id } = req.params
 
@@ -98,5 +104,6 @@ router.put('/:car_id/add-review', (req, res) => {
         .then(review => res.status(200).json(review))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
+
 
 module.exports = router
