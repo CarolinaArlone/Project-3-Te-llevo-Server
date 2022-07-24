@@ -19,7 +19,7 @@ router.post('/create', isAuthenticated, (req, res) => {
         .then((booking) => {
             newBooking = booking
             bookingId = booking._id
-            return Car.findByIdAndUpdate(car_id, { $push: { UserBookings: bookingId } })
+            return Car.findByIdAndUpdate(car_id, { $push: { reservations: booking } })
         })
         .then(() => res.json(newBooking))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
@@ -84,6 +84,17 @@ router.post('/:car_id/create/review', isAuthenticated, (req, res) => {
             Car.findByIdAndUpdate(car_id, { $push: { reviews: review } })
             res.json(review)
         })
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
+})
+
+//user booking
+router.get('/user/:user_id', (req, res) => {
+
+    const { user_id } = req.params
+
+    Booking
+        .find(user_id)
+        .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 

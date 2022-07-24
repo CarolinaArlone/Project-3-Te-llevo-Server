@@ -12,14 +12,27 @@ router.get('/all', (req, res) => {
 
 })
 
+// one user
+router.get('/:user_id', (req, res) => {
+
+    const { user_id } = req.params
+
+    User
+        .findById(user_id)
+        // .select()
+        .then(response => res.status(200).json(response))
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
+
+})
+
 // edit user
 router.put("/:user_id/edit", (req, res) => {
 
     const { user_id } = req.params
-    const { username, email, password, role, profileImg } = req.body
+    const { username, email, profileImg } = req.body
 
     User
-        .findByIdAndUpdate(user_id, { username, email, password, role, profileImg }, { new: true })
+        .findByIdAndUpdate(user_id, { username, email, profileImg }, { new: true })
         .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
