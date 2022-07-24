@@ -78,10 +78,10 @@ router.put('/:car_id/edit', (req, res) => {
 })
 
 //delete car
-router.delete('/:car_id/delete', (res, req) => {
+router.delete('/:car_id/delete', (req, res) => {
 
     const { car_id } = req.params
-
+    console.log('desde el servidor------', car_id)
     Car
         .findByIdAndDelete(car_id)
         .then(() => res.status(200).json())
@@ -96,6 +96,22 @@ router.put('/:car_id/add-review', (req, res) => {
     Car
         .findByIdAndUpdate(car_id, { $push: { reviews: review_id } })
         .then(review => res.status(200).json(review))
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
+})
+
+//car reviews
+router.post('/:car_id/create/review', isAuthenticated, (req, res) => {
+
+    const { rating, content } = req.body
+    const user = req.payload._id
+    const { car_id } = req.params
+
+    Review
+        .create({ user, content, rating })
+        .then(review => {
+            Car.findByIdAndUpdate(car_id, { $push: { reviews: review } })
+            res.json(review)
+        })
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 

@@ -71,4 +71,21 @@ router.delete(':booking_id/delete', (req, res) => {
 
 })
 
+//car reviews
+router.post('/:car_id/create/review', isAuthenticated, (req, res) => {
+
+    const { rating, content } = req.body
+    const user = req.payload._id
+    const { car_id } = req.params
+
+    Review
+        .create({ user, content, rating })
+        .then(review => {
+            Car.findByIdAndUpdate(car_id, { $push: { reviews: review } })
+            res.json(review)
+        })
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
+})
+
+
 module.exports = router
