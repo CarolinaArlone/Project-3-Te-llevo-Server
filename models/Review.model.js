@@ -6,12 +6,6 @@ const reviewSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User',
         },
-        rating: {
-            type: Number,
-            default: 5,
-            min: 1,
-            max: 5
-        },
         content: {
             type: String,
             required: true,

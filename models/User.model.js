@@ -34,6 +34,7 @@ const userSchema = new Schema(
         maxlength: [16, "Número de tarjeta no válido"]
       }
     }
+  
   },
   {
     timestamps: true,

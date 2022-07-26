@@ -1,8 +1,7 @@
 const router = require('express').Router()
-
 const Car = require('./../models/Car.model')
-
 const { isAuthenticated } = require('./../middlewares/jwt.middleware')
+const Review = require('./../models/Review.model')
 
 //all cars
 router.get('/all', (req, res) => {
@@ -22,8 +21,6 @@ router.post('/create', isAuthenticated, (req, res) => {
         transmission, fuelType, seats, carRating, longitude, latitude
     } = req.body
 
-    console.log('=======', req.body)
-
     const location = {
         type: 'Point',
         coordinates: [latitude, longitude]
@@ -37,11 +34,9 @@ router.post('/create', isAuthenticated, (req, res) => {
     Car
         .create(newCar)
         .then(car => {
-            console.log('---eto es el coche creado------>', car)
             res.status(200).json(car)
         })
-        .catch(err => console.log(err))
-    // .catch(err => res.status(500).json({ errorMessage: err.message }))
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
 
 })
 
@@ -52,7 +47,7 @@ router.get('/:car_id', (req, res) => {
 
     Car
         .findById(car_id)
-        .populate('reservations')
+        .populate('reservations reviews')
         .then(car => {
             res.status(200).json(car)
         })
@@ -95,15 +90,59 @@ router.delete('/:car_id/delete', (req, res) => {
 })
 
 //add review to car
-router.put('/:car_id/add-review', (req, res) => {
+router.put('/:car_id/add-review/:user_id', (req, res) => {
 
-    const { car_id, review_id } = req.body
+    const { car_id, user_id } = req.params
+    const { content } = req.body
 
-    Car
-        .findByIdAndUpdate(car_id, { $push: { reviews: review_id } })
-        .then(review => res.status(200).json(review))
+    const newReview = { content, user: user_id }
+
+    Review
+        .create(newReview)
+        .then(review => {
+            Car
+                .findByIdAndUpdate(car_id, { $push: { reviews: review._id } })
+                /* .populate('reviews') */
+                .then(review => res.status(200).json(review))
+        })
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
 
+//add rate to car
+router.put('/:car_id/add-car-rating', (req, res) => {
+
+    const { car_id } = req.params
+    const { carRating } = req.body
+
+    Car
+        .findById(car_id)
+        .then(car => {
+            let newCarRating = (car.carRating + rate / 2).toFixed(2)
+        })
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
+})
+
+//get booked dates
+router.get('/:car_id/booked-dates', (req, res) => {
+
+    const { car_id } = req.params
+
+    let bookedDates = []
+
+    Car
+        .find({ _id: car_id })
+        .populate('reservations')
+        .then(cars => {
+            cars[0].reservations.forEach(booking => {
+                const date = new Date(booking.startDate)
+                while (date <= booking.endDate) {
+                    bookedDates.push(new Date(date))
+                    date.setDate(date.getDate() + 1)
+                }
+            })
+            res.status(200).json(bookedDates)
+        })
+        .catch(err => res.status(500).json({ errorMessage: err.message }))
+})
 
 module.exports = router

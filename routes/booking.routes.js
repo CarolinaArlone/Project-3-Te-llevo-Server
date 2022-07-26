@@ -1,102 +1,51 @@
 const router = require('express').Router()
 const Booking = require('../models/Booking.model')
+const { create } = require('../models/Car.model')
 const Car = require('../models/Car.model')
-const User = require('../models/User.model')
-
 const { isAuthenticated } = require('./../middlewares/jwt.middleware')
 
 //create booking
-router.post('/create', isAuthenticated, (req, res) => {
+router.post('/create/:car_id', isAuthenticated, (req, res) => {
 
-    const { startDate, endDate, bookedCar } = req.body
+    const { startDate, endDate } = req.body
     const { _id: user } = req.payload
-
-    let bookingId = ''
-    let newBooking = []
-
-    Booking
-        .create({ startDate, endDate, bookedCar, user })
-        .then((booking) => {
-            newBooking = booking
-            bookingId = booking._id
-            return Car.findByIdAndUpdate(car_id, { $push: { reservations: booking } })
-        })
-        .then(() => res.json(newBooking))
-        .catch(err => res.status(500).json({ errorMessage: err.message }))
-
-})
-
-//all booking
-router.get('/all', (req, res) => {
-
-    Booking
-        .find()
-        // .select()
-        .then(response => res.status(200).json(response))
-        .catch(err => res.status(500).json({ errorMessage: err.message }))
-})
-
-//find booking
-router.get('/:booking_id', (req, res) => {
-
-    const { booking_id } = req.params
-
-    Booking
-        .findById(booking_id)
-        .then(response => res.status(200).json(response))
-        .catch(err => res.status(500).json({ errorMessage: err.message }))
-})
-
-//edit booking
-router.put(':booking_id/edit', (req, res) => {
-
-    const { booking_id } = req.params
-    const { startDate, endDate, bookedCar } = req.body
-
-    Booking
-        .findByIdAndUpdate(booking_id, (startDate, endDate, bookedCar))
-        .then(response => res.status(200).json(response))
-        .catch(err => res.status(500).json({ errorMessage: err.message }))
-})
-
-//delete
-router.delete(':booking_id/delete', (req, res) => {
-
-    const { booking_id } = req.params
-
-    Booking
-        .findByIdAndDelete(booking_id)
-        .then(response => res.status(200).json(response))
-        .catch(err => res.status(500).json({ errorMessage: err.message }))
-
-})
-
-//car reviews
-router.post('/:car_id/create/review', isAuthenticated, (req, res) => {
-
-    const { rating, content } = req.body
-    const user = req.payload._id
     const { car_id } = req.params
 
-    Review
-        .create({ user, content, rating })
-        .then(review => {
-            Car.findByIdAndUpdate(car_id, { $push: { reviews: review } })
-            res.json(review)
+    Booking
+        .create({ startDate, endDate, user })
+        .then(booking => {
+            return Car.findByIdAndUpdate(car_id, { $push: { reservations: booking._id } })
         })
+        .then(newCar => res.status(200).json(newCar))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
+
 })
 
-//user booking
+//get user booked cars
 router.get('/user/:user_id', (req, res) => {
 
     const { user_id } = req.params
 
-    Booking
-        .find(user_id)
-        .then(response => res.status(200).json(response))
-        .catch(err => res.status(500).json({ errorMessage: err.message }))
-})
+    let allBookings = []
 
+    Booking
+        .find({ user: user_id })
+        .then(bookings => {
+            allBookings = bookings
+            const allCars = bookings.map(booking => Car.findOne({ reservations: booking._id }))
+            return Promise.all(allCars)
+        })
+        .then(allCars => {
+            const response = allBookings.map((elm, idx) => {
+                return {
+                    booking: elm._doc,
+                    car: allCars[idx]
+                }
+            })
+            res.json(response)
+        })
+        .catch(err => console.log(err))
+
+})
 
 module.exports = router
