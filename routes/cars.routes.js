@@ -95,6 +95,8 @@ router.put('/:car_id/add-review/:user_id', (req, res) => {
     const { car_id, user_id } = req.params
     const { content } = req.body
 
+    console.log('-----------', req.body)
+
     const newReview = { content, user: user_id }
 
     Review
@@ -112,7 +114,9 @@ router.put('/:car_id/add-review/:user_id', (req, res) => {
 router.put('/:car_id/add-car-rating', (req, res) => {
 
     const { car_id } = req.params
-    const { carRating } = req.body
+    const { rate } = req.body
+
+
 
     Car
         .findById(car_id)
