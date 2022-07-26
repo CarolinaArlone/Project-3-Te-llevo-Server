@@ -112,12 +112,18 @@ router.put('/:car_id/add-review/:user_id', (req, res) => {
 router.put('/:car_id/add-car-rating', (req, res) => {
 
     const { car_id } = req.params
-    const { carRating } = req.body
+    const { rate } = req.body
 
     Car
         .findById(car_id)
         .then(car => {
-            let newCarRating = (car.carRating + rate / 2).toFixed(2)
+            let newCarRating = ((car.carRating + Number(rate) )/ 2).toFixed(2)
+            return newCarRating
+        })
+        .then(newCarRating => {
+            Car
+                .findByIdAndUpdate(car_id, {$set: { carRating: newCarRating }})
+                .then(carRating => res.status(200).json(carRating))
         })
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
