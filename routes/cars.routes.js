@@ -95,17 +95,14 @@ router.put('/:car_id/add-review/:user_id', (req, res) => {
     const { car_id, user_id } = req.params
     const { content } = req.body
 
-    console.log('-----------', req.body)
-
     const newReview = { content, user: user_id }
 
     Review
         .create(newReview)
         .then(review => {
             Car
-                .findByIdAndUpdate(car_id, { $push: { reviews: review._id } })
-                /* .populate('reviews') */
-                .then(review => res.status(200).json(review))
+                .findByIdAndUpdate(car_id, { $push: { reviews: review._id } }, { new: true })
+                .then(car => res.status(200).json(car))
         })
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })
@@ -114,18 +111,23 @@ router.put('/:car_id/add-review/:user_id', (req, res) => {
 router.put('/:car_id/add-car-rating', (req, res) => {
 
     const { car_id } = req.params
-    const { rate } = req.body
+    const { carRating } = req.body
+
+    console.log('body', req.body)
+    console.log('params', req.params)
+
 
     Car
-        .findById(car_id)
+        .findByIdAndUpdate(car_id, { $push: { carRatings: Number(carRating) } }, { new: true })
         .then(car => {
-            let newCarRating = ((car.carRating + Number(rate) )/ 2).toFixed(2)
-            return newCarRating
+            console.log(car)
+            let newAvgRating = car.carRatings.reduce((a, b) => a + b, 0) / car.carRatings.length
+            return newAvgRating
         })
-        .then(newCarRating => {
+        .then(newAvgRating => {
             Car
-                .findByIdAndUpdate(car_id, {$set: { carRating: newCarRating }})
-                .then(carRating => res.status(200).json(carRating))
+                .findByIdAndUpdate(car_id, { $set: { avgRating: Math.round(newAvgRating) } }, { new: true })
+                .then(car => res.status(200).json(car))
         })
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 })

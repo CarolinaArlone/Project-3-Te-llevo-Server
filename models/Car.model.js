@@ -47,11 +47,14 @@ const carSchema = new Schema(
             max: 9,
             required: [true, "Por favor indique el número de asientos del vehículo"]
         },
-        carRating: {
+        carRatings: [{
             type: Number,
             default: 5,
             min: 0,
             max: 5
+        }],
+        avgRating: {
+            type: Number
         },
         reviews: [
             {
