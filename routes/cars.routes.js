@@ -47,7 +47,13 @@ router.get('/:car_id', (req, res) => {
 
     Car
         .findById(car_id)
-        .populate('reservations reviews')
+        .populate('reservations')
+        .populate({
+            path: 'reviews',
+            populate: {
+                path: 'user'
+            }
+        })
         .then(car => {
             res.status(200).json(car)
         })
@@ -82,7 +88,7 @@ router.put('/:car_id/edit', (req, res) => {
 router.delete('/:car_id/delete', (req, res) => {
 
     const { car_id } = req.params
-    console.log('desde el servidor------', car_id)
+    
     Car
         .findByIdAndDelete(car_id)
         .then(() => res.status(200).json())
@@ -102,6 +108,7 @@ router.put('/:car_id/add-review/:user_id', (req, res) => {
         .then(review => {
             Car
                 .findByIdAndUpdate(car_id, { $push: { reviews: review._id } }, { new: true })
+                .populate('reviews')
                 .then(car => res.status(200).json(car))
         })
         .catch(err => res.status(500).json({ errorMessage: err.message }))

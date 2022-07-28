@@ -19,7 +19,6 @@ router.get('/:user_id', (req, res) => {
 
     User
         .findById(user_id)
-        // .select()
         .then(response => res.status(200).json(response))
         .catch(err => res.status(500).json({ errorMessage: err.message }))
 

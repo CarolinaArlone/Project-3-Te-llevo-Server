@@ -49,9 +49,7 @@ const carSchema = new Schema(
         },
         carRatings: [{
             type: Number,
-            default: 5,
-            min: 0,
-            max: 5
+            default: 100,
         }],
         avgRating: {
             type: Number
